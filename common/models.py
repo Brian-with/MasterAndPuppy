@@ -9,7 +9,7 @@ class Owner(models.Model):
         db_table = 'Owners'
 
 class Dog(models.Model):
-    owner_id = models.ForeignKey('Owner', on_delete=models.CASCADE)
+    owner = models.ForeignKey('Owner', on_delete=models.CASCADE)
     name = models.CharField(max_length=45)
     age = models.IntegerField()
 
