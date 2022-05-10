@@ -24,5 +24,58 @@ class AddDog(View):
             name = input["dog_name"],
             age	= input["dog_age"],
             owner_id = input["owner_id"])
-            
+
         return JsonResponse({"message" : "Dog data saved succecefully!"}, status = 201)
+
+
+class OwnerInfo(View):
+
+    def get(self, request):
+        # Client로 부터 요청받은 내용을 리턴해줌
+        output = []
+        owners = Owner.objects.all()
+
+        for owner in owners:
+            output.append({
+                "id"    :   owner.id,
+                "name"  :   owner.name,
+                "email" :   owner.email,
+                "age"   :   owner.age,
+            })
+        return JsonResponse({"Owner": output}, status = 200)
+
+class DogInfo(View):
+    def get(self, request):
+        output = []
+        dogs = Dog.objects.all()
+        owners = Owner.objects.all()
+
+        for dog in dogs:
+            output.append({
+                "id"    :   dog.id,
+                "name"  :   dog.name,
+                "age"   :   dog.age,
+                "owner_name"    : owners.get(id=dog.owner_id).name
+            })
+        return JsonResponse({"Dog": output}, status = 200)
+
+class OwnerDogInfo(View):
+    def get(self, request):
+        output = []
+        owners = Owner.objects.all()
+        dogs = Dog.objects.all()
+
+        for owner in owners:
+            output.append({
+                "id"    :   owner.id,
+                "name"  :   owner.name,
+                "email" :   owner.email,
+                "age"   :   owner.age,
+
+            # for dog in dogs:
+            #     "dog_name" : dogs.get(owner_id=owner.id),
+            #     "dog_age" : dogs.get(owner_id=owner.id).age,
+                # "dog_name"   :   dogs.filter(owner_id=id).name
+            })
+        
+        return JsonResponse({"Owners and Dogs": output}, status = 200)
