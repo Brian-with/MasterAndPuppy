@@ -5,28 +5,24 @@ from django.views import View
 
 from .models import Owner, Dog
 
-class UserinfoView(View):
+class AddOwner(View):
 
-    # def GET(self, request):
-    #     return HttpResponse("common page get")
+    def post(self, request):
+        input = json.loads(request.body)
+        owner = Owner.objects.create(
+            name = input["name"],
+            email = input["email"],
+            age	= input["age"])
+        
+        return JsonResponse({"message" : "Owner data saved succecefully!"}, status = 201)
 
-	def POST(self, request):
-		# Client에서 전송한 데이터를 데이터베이스에 저장한다.
-		"""
-        # http -v POST http://localhost:8000/common
-        # name = 홍길동 email = hgd@gmail.com age = 80
-        # dog_name = 백구 dog_age = 15
-		"""
-		input = json.loads(request.body)
-		
-		owner = Owner.objects.create(
-			name = input["name"],
-			email = input["email"],
-			age	= input["age"])
-			
-		dog = Dog.objects.create(
-			name = input["dog_name"],
-			age	= input["dog_age"],
-			owner_id = owner.id)
-		
-		return JsonResponse({"message" : "SUCCESS"}, status = 201)
+class AddDog(View):
+
+    def post(self, request):
+        input = json.loads(request.body)
+        dog = Dog.objects.create(
+            name = input["dog_name"],
+            age	= input["dog_age"],
+            owner_id = input["owner_id"])
+            
+        return JsonResponse({"message" : "Dog data saved succecefully!"}, status = 201)
