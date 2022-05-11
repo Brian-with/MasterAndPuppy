@@ -30,17 +30,23 @@ class ActorInfoView(View):
         
         return JsonResponse({"배우정보" : results}, status=200)
 
-# class MovieInfoView(View):
-#     def get(self, request):
+class MovieInfoView(View):
 
-#         results = []
-#         movies = Movie.objects.all()
-#         for movie in movies:
-            
-#             results.append({
-#                 "영화제목"  :   
-#                 "상영시간"  :   
-#                 "출연배우 목록" :
-#             })
-        
-#         return JsonResponse({"영화정보" : results}, status=200)
+    def get(self, request):
+        results = []
+        movies = Movie.objects.all()
+        for movie in movies:
+            movies_info = Actor_Movie.objects.filter(movie_id=movie.id)
+
+            list_actor = []
+            for movie_info in movies_info:
+                list_actor.append(movie_info.actor_id.first_name)
+
+            results.append(
+                {
+                "영화제목"  :   movie.title,
+                "상영시간"  :   movie.running_time,
+                "출연배우 목록" :   list_actor
+                })
+
+        return JsonResponse({"영화정보" : results}, status=200)
