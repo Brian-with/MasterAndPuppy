@@ -31,7 +31,6 @@ class AddDog(View):
 class OwnerInfo(View):
 
     def get(self, request):
-        # Client로 부터 요청받은 내용을 리턴해줌
         output = []
         owners = Owner.objects.all()
 
@@ -82,3 +81,21 @@ class OwnerDogInfo(View):
             })
         
         return JsonResponse({"Owners and Dogs": output}, status = 200)
+
+"""
+# Case 1. 단순 2종 for문 사용
+for owner in owners:
+    dog_list =[]
+
+    # first, make `dog list`
+    for dog in owner.dog_set.all():
+        dog_list.append({
+            "id"    : 
+            "name"  : 
+            "age"   :
+        })
+
+# Case 2. List comprehension 사용
+for owner in owners:
+
+"""

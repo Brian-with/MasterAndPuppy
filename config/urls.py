@@ -1,5 +1,6 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path("common/", include("common.urls"))
+    path("common/", include("common.urls")),
+    path("movies/", include("movies.urls")),
 ]

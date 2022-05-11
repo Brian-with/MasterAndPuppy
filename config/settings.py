@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'movies',
     'common',
     'corsheaders',
     # 'django.contrib.admin',
